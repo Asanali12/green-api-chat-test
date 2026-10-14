@@ -7,11 +7,6 @@ import type {
   SendMessageResponse,
 } from './greenApi';
 
-// Simulates GREEN-API closely enough to drive the real UI/hook: checkWhatsapp
-// always succeeds, sendMessage schedules a canned reply a couple of seconds
-// later, and receiveNotification/deleteNotification behave like a real queue
-// (the same head notification is re-served until explicitly deleted).
-
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

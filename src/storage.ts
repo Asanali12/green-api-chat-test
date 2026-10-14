@@ -14,17 +14,13 @@ export function loadCredentials(): Credentials | null {
 export function saveCredentials(creds: Credentials): void {
   try {
     localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(creds));
-  } catch {
-    /* ignore storage failures (e.g. private mode) */
-  }
+  } catch {}
 }
 
 export function clearCredentials(): void {
   try {
     localStorage.removeItem(CREDENTIALS_KEY);
-  } catch {
-    /* ignore */
-  }
+  } catch {}
 }
 
 function dataKey(idInstance: string): string {
@@ -50,7 +46,5 @@ export function loadChatData(idInstance: string): PersistedData {
 export function saveChatData(idInstance: string, data: PersistedData): void {
   try {
     localStorage.setItem(dataKey(idInstance), JSON.stringify(data));
-  } catch {
-    /* ignore storage failures */
-  }
+  } catch {}
 }

@@ -47,10 +47,8 @@ export function useChatSession(creds: Credentials) {
   const credsRef = useRef(creds);
   credsRef.current = creds;
 
-  // Persist on change.
   useEffect(() => {
     saveChatData(creds.idInstance, { chats, messages: messagesByChat });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chats, messagesByChat]);
 
   const processNotification = useCallback((body: IncomingMessageNotification) => {
@@ -102,7 +100,6 @@ export function useChatSession(creds: Credentials) {
     });
   }, []);
 
-  // Long-poll GREEN-API for incoming notifications for the lifetime of the session.
   useEffect(() => {
     let cancelled = false;
 
@@ -115,9 +112,7 @@ export function useChatSession(creds: Credentials) {
             processNotification(notification.body);
             try {
               await api.deleteNotification(credsRef.current, notification.receiptId);
-            } catch {
-              // If deletion fails the same notification may reappear; processNotification dedupes by id.
-            }
+            } catch {}
           }
           setConnectionError(null);
         } catch (err) {
@@ -132,7 +127,6 @@ export function useChatSession(creds: Credentials) {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [creds.idInstance, creds.apiTokenInstance, creds.apiUrl, creds.mock, processNotification]);
 
   const createChat = useCallback(

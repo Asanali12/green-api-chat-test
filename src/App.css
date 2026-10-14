@@ -1,6 +1,4 @@
 :root {
-  /* Colors verified from MAX's official UI kit (github.com/max-messenger/max-ui):
-     primary accent rgb(0 122 255), primary text rgb(6 7 8). */
   --accent: #007aff;
   --accent-dark: #0062cc;
   --bg-chat: #eef2f7;
@@ -16,8 +14,6 @@
   --avatar-gradient-4: linear-gradient(157deg, #08d7f3 6.38%, #5398ff 85%);
   --avatar-gradient-5: linear-gradient(155deg, #bf97ff 6.6%, #526eff 84.12%);
 }
-
-/* ---------- Login screen ---------- */
 
 .login-screen {
   display: flex;
@@ -140,8 +136,6 @@
   flex-shrink: 0;
 }
 
-/* ---------- App shell ---------- */
-
 .app-shell {
   display: flex;
   flex-direction: column;
@@ -163,8 +157,6 @@
   padding: 6px;
   flex-shrink: 0;
 }
-
-/* ---------- Sidebar ---------- */
 
 .sidebar {
   width: 320px;
@@ -287,8 +279,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-/* ---------- Chat window ---------- */
 
 .chat-window {
   flex: 1;

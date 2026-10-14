@@ -1,81 +1,36 @@
 # WhatsApp Web Chat
 
-A minimal React UI for sending and receiving text messages in WhatsApp
-through [GREEN-API](https://green-api.com/). Built as a test assignment.
+Простой веб-интерфейс на React для отправки и приёма текстовых сообщений в WhatsApp через [GREEN-API](https://green-api.com/). Тестовое задание.
 
-## One-time setup: authorize the GREEN-API instance
+## Перед запуском: привяжите аккаунт WhatsApp
 
-This app only *uses* an instance — it doesn't create or log one into
-WhatsApp. Before `idInstance`/`apiTokenInstance` will work here:
+1. Создайте WhatsApp-инстанс в консоли GREEN-API — [console.green-api.com](https://console.green-api.com).
+2. Отсканируйте QR-код своим WhatsApp (WhatsApp → Связанные устройства → Привязка устройства) — так же, как в WhatsApp Web.
+3. Скопируйте `idInstance` и `apiTokenInstance` из консоли — они понадобятся при входе в приложение.
 
-1. Create a WhatsApp instance in the GREEN-API console
-   ([console.green-api.com](https://console.green-api.com)).
-2. Authorize it with **your own WhatsApp account** by scanning the QR code
-   the console shows you (WhatsApp → Linked Devices → Link a Device, same as
-   WhatsApp Web). This step is GREEN-API's, not this app's.
-3. Once the instance shows as authorized, copy its `idInstance` and
-   `apiTokenInstance` — that's what you sign in with below.
-
-## Running it
+## Запуск
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open the printed local URL and sign in with your instance's `idInstance` /
-`apiTokenInstance`. Credentials are verified with a `getSettings` call and
-stored in `localStorage` so you stay signed in across reloads.
+Откройте адрес, который выведет команда, и войдите с помощью `idInstance` и `apiTokenInstance`.
 
-## Using the app
+## Как пользоваться
 
-1. Sign in with `idInstance` / `apiTokenInstance`.
-2. Click **+** and enter the recipient's phone number (digits only, with
-   country code, e.g. `79991234567`) to start a chat. This checks the
-   number via `CheckWhatsapp` first, so you get a clear error if it doesn't
-   have WhatsApp, then addresses it as `{phone}@c.us` — WhatsApp chat IDs
-   are deterministic from the phone number, unlike some of GREEN-API's other
-   messenger products.
-3. Type a message and press Enter (or click Send). It's sent via
-   `SendMessage` and appears as an optimistic bubble that resolves to "sent"
-   or "failed".
-4. Replies sent from the WhatsApp app arrive automatically: the app
-   long-polls `ReceiveNotification` for the lifetime of the session and
-   calls `DeleteNotification` once each notification is processed. An
-   incoming message for an unknown `chatId` creates a new chat in the
-   sidebar.
+1. Войдите, указав `idInstance` и `apiTokenInstance`.
+2. Нажмите **+** и введите номер телефона получателя (с кодом страны, например `79991234567`) — откроется новый чат.
+3. Напишите сообщение и отправьте его (Enter или кнопка Send).
+4. Ответы из WhatsApp появляются в чате автоматически.
 
-To actually test it, use two phones/WhatsApp accounts: authorize one as the
-GREEN-API instance you sign in with here, and send/reply from the other
-WhatsApp account using the first account's phone number as the chat you
-create.
+Для проверки нужны два аккаунта WhatsApp: один привязан к инстансу, с которого вы входите в приложение, а с другого (например, с телефона) отвечаете на сообщения.
 
-There's also a **Try demo with mock data** button on the login screen for
-exploring the UI without a live instance (e.g. while GREEN-API is down) —
-see `src/api/mockGreenApi.ts`.
+Есть кнопка **Try demo with mock data** на экране входа — показывает интерфейс на тестовых данных, без реального подключения к GREEN-API.
 
-## How it's built
+## Из чего состоит проект
 
-- Plain React + TypeScript, no UI framework or router — the brief asked for
-  the smallest reasonable interface, not a feature-complete client.
-- `src/api/greenApi.ts` is the only place that talks to GREEN-API
-  (`getSettings`, `checkWhatsapp`, `sendMessage`, `receiveNotification`,
-  `deleteNotification`).
-- `src/hooks/useChatSession.ts` owns the chat/message state, the
-  receive-notification long-poll loop, and localStorage persistence
-  (scoped per `idInstance`, so switching accounts doesn't mix chat
-  histories).
-- All state lives in `localStorage` on the client — there's no backend.
-  GREEN-API is called directly from the browser.
-
-## Notes / assumptions
-
-- GREEN-API's request host is normally instance-specific
-  (`https://{cluster}.api.green-api.com`), but the generic
-  `https://api.green-api.com` host (used as the default here) transparently
-  routes to the right cluster. An **Advanced settings** field on the login
-  screen lets you override the API URL if your instance needs a specific
-  host.
-- The interface is a simplified two-pane chat layout (chat list +
-  conversation), covering only the one flow the assignment asks for: start
-  a chat by phone number, send/receive text only.
+- React + TypeScript, без лишних библиотек — интерфейс максимально простой.
+- `src/api/greenApi.ts` — все запросы к GREEN-API.
+- `src/hooks/useChatSession.ts` — состояние чатов и сообщений, опрос новых сообщений.
+- Бэкенда нет: всё хранится в `localStorage` браузера, запросы идут напрямую в GREEN-API.
