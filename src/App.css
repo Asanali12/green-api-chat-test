@@ -42,13 +42,6 @@
   text-align: center;
 }
 
-.login-subtitle {
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 13px;
-  margin-bottom: 8px;
-}
-
 .field {
   display: flex;
   flex-direction: column;
@@ -105,12 +98,6 @@
   font-size: 13px;
   padding: 0;
   align-self: flex-start;
-}
-
-.login-hint {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text-muted);
 }
 
 .app-shell {

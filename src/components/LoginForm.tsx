@@ -7,7 +7,6 @@ const DEFAULT_API_URL = 'https://api.green-api.com';
 const ENV_ID_INSTANCE = import.meta.env.VITE_GREEN_API_ID_INSTANCE ?? '';
 const ENV_API_TOKEN_INSTANCE = import.meta.env.VITE_GREEN_API_API_TOKEN_INSTANCE ?? '';
 const ENV_API_URL = import.meta.env.VITE_GREEN_API_URL ?? '';
-const HAS_ENV_CREDENTIALS = Boolean(ENV_ID_INSTANCE && ENV_API_TOKEN_INSTANCE);
 
 interface LoginFormProps {
   onSuccess: (creds: Credentials) => void;
@@ -55,10 +54,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     <div className="login-screen">
       <form className="login-card" onSubmit={handleSubmit}>
         <h1>Веб-чат WhatsApp</h1>
-        <p className="login-subtitle">Войдите с учётными данными вашего инстанса GREEN-API</p>
-        {HAS_ENV_CREDENTIALS && (
-          <p className="login-hint">Поля заполнены из .env — проверьте и нажмите «Войти».</p>
-        )}
 
         <label className="field">
           <span>idInstance</span>
