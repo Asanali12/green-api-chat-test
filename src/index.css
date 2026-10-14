@@ -1,0 +1,47 @@
+:root {
+  /* Font stack verified from MAX's official UI kit (github.com/max-messenger/max-ui). */
+  --sans: system-ui, -apple-system, BlinkMacSystemFont, Roboto, 'Apple Color Emoji', 'Helvetica Neue', sans-serif;
+  color-scheme: light;
+  font: 15px/1.4 var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  min-height: 100svh;
+}
+
+body {
+  background: #e9edf1;
+}
+
+h1,
+h2 {
+  font-family: var(--sans);
+  font-weight: 600;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+}
