@@ -186,17 +186,22 @@
 }
 
 .icon-button {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   border: none;
-  background: var(--accent);
-  color: #fff;
-  font-size: 18px;
-  line-height: 1;
+  background: transparent;
+  color: var(--text-muted);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.icon-button:hover {
+  background: #eef2f7;
+  color: var(--accent);
 }
 
 .new-chat-form {

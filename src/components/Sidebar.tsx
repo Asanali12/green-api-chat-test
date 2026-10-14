@@ -1,3 +1,4 @@
+import { LogOut, Plus } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { avatarGradient } from '../avatarGradient';
 import type { Chat, ChatMessage } from '../types';
@@ -26,7 +27,7 @@ export function Sidebar({ chats, messagesByChat, activeChatId, onSelectChat, onC
       setPhone('');
       setShowNewChat(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not start chat');
+      setError(err instanceof Error ? err.message : 'Не удалось начать чат');
     } finally {
       setCreating(false);
     }
@@ -41,13 +42,13 @@ export function Sidebar({ chats, messagesByChat, activeChatId, onSelectChat, onC
   return (
     <aside className="sidebar">
       <div className="sidebar-header">
-        <h2>Chats</h2>
+        <h2>Чаты</h2>
         <div className="sidebar-header-actions">
-          <button className="icon-button" onClick={() => setShowNewChat((v) => !v)} title="New chat">
-            +
+          <button className="icon-button" onClick={() => setShowNewChat((v) => !v)} title="Новый чат">
+            <Plus size={18} />
           </button>
-          <button className="link-button" onClick={onLogout}>
-            Log out
+          <button className="icon-button" onClick={onLogout} title="Выйти">
+            <LogOut size={18} />
           </button>
         </div>
       </div>
@@ -57,12 +58,12 @@ export function Sidebar({ chats, messagesByChat, activeChatId, onSelectChat, onC
           <input
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="Recipient phone number, e.g. 79991234567"
+            placeholder="Номер телефона получателя, например 79991234567"
             inputMode="tel"
             autoFocus
           />
-          <button type="submit" className="primary-button" disabled={creating}>
-            {creating ? 'Checking…' : 'Start chat'}
+          <button type="submit" className="primary-button" disabled={creating} title="Начать чат">
+            {creating ? 'Проверка…' : 'Начать чат'}
           </button>
           {error && <div className="form-error">{error}</div>}
         </form>
@@ -82,12 +83,14 @@ export function Sidebar({ chats, messagesByChat, activeChatId, onSelectChat, onC
               </div>
               <div className="chat-list-item-text">
                 <div className="chat-list-item-name">{chat.name}</div>
-                <div className="chat-list-item-preview">{lastMessage ? lastMessage.text : 'No messages yet'}</div>
+                <div className="chat-list-item-preview">
+                  {lastMessage ? lastMessage.text : 'Пока нет сообщений'}
+                </div>
               </div>
             </li>
           );
         })}
-        {sortedChats.length === 0 && <li className="chat-list-empty">No chats yet. Start one above.</li>}
+        {sortedChats.length === 0 && <li className="chat-list-empty">Пока нет чатов. Создайте новый выше.</li>}
       </ul>
     </aside>
   );

@@ -11,8 +11,8 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
         <span className="message-text">{message.text}</span>
         <span className="message-meta">
           {formatTime(message.timestamp)}
-          {message.status === 'pending' && ' · Sending…'}
-          {message.status === 'failed' && ' · Failed to send'}
+          {message.status === 'pending' && ' · Отправка…'}
+          {message.status === 'failed' && ' · Не удалось отправить'}
         </span>
         {message.reaction && <span className="message-reaction">{message.reaction}</span>}
       </div>

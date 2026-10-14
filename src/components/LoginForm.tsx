@@ -32,7 +32,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     };
 
     if (!creds.idInstance || !creds.apiTokenInstance) {
-      setError('Both idInstance and apiTokenInstance are required');
+      setError('Укажите idInstance и apiTokenInstance');
       return;
     }
 
@@ -42,9 +42,9 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
       onSuccess(creds);
     } catch (err) {
       if (err instanceof GreenApiError) {
-        setError(`Could not verify credentials: ${err.message}`);
+        setError(`Не удалось проверить учётные данные: ${err.message}`);
       } else {
-        setError('Could not verify credentials');
+        setError('Не удалось проверить учётные данные');
       }
     } finally {
       setChecking(false);
@@ -54,10 +54,10 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
   return (
     <div className="login-screen">
       <form className="login-card" onSubmit={handleSubmit}>
-        <h1>WhatsApp Web Chat</h1>
-        <p className="login-subtitle">Sign in with your GREEN-API instance credentials</p>
+        <h1>Веб-чат WhatsApp</h1>
+        <p className="login-subtitle">Войдите с учётными данными вашего инстанса GREEN-API</p>
         {HAS_ENV_CREDENTIALS && (
-          <p className="login-hint">Pre-filled from .env — review and click Sign in.</p>
+          <p className="login-hint">Поля заполнены из .env — проверьте и нажмите «Войти».</p>
         )}
 
         <label className="field">
@@ -82,8 +82,13 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
           />
         </label>
 
-        <button type="button" className="link-button" onClick={() => setShowAdvanced((v) => !v)}>
-          {showAdvanced ? 'Hide advanced settings' : 'Advanced settings'}
+        <button
+          type="button"
+          className="link-button"
+          onClick={() => setShowAdvanced((v) => !v)}
+          title={showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки'}
+        >
+          {showAdvanced ? 'Скрыть дополнительные настройки' : 'Дополнительные настройки'}
         </button>
 
         {showAdvanced && (
@@ -95,18 +100,19 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
 
         {error && <div className="form-error">{error}</div>}
 
-        <button type="submit" className="primary-button" disabled={checking}>
-          {checking ? 'Checking…' : 'Sign in'}
+        <button type="submit" className="primary-button" disabled={checking} title="Войти">
+          {checking ? 'Проверка…' : 'Войти'}
         </button>
 
         <button
           type="button"
           className="secondary-button"
           onClick={() => onSuccess({ idInstance: 'demo', apiTokenInstance: 'demo', apiUrl: '', mock: true })}
+          title="Демо-режим с тестовыми данными"
         >
-          Try demo with mock data
+          Демо-режим с тестовыми данными
         </button>
-        <p className="login-hint">No GREEN-API account needed — useful if the service is down.</p>
+        <p className="login-hint">Аккаунт GREEN-API не нужен — пригодится, если сервис недоступен.</p>
       </form>
     </div>
   );

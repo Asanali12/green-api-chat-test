@@ -21,7 +21,7 @@ export function ChatWindow({ chat, messages, onSend }: ChatWindowProps) {
   if (!chat) {
     return (
       <div className="chat-window chat-window-empty">
-        <p>Select a chat or start a new one to send a message.</p>
+        <p>Выберите чат или создайте новый, чтобы отправить сообщение.</p>
       </div>
     );
   }
@@ -61,7 +61,9 @@ export function ChatWindow({ chat, messages, onSend }: ChatWindowProps) {
       </div>
 
       <div className="chat-window-messages">
-        {messages.length === 0 && <div className="chat-window-empty-hint">No messages yet. Say hello!</div>}
+        {messages.length === 0 && (
+          <div className="chat-window-empty-hint">Пока нет сообщений. Напишите первым!</div>
+        )}
         {messages.map((m) => (
           <MessageBubble key={m.id} message={m} />
         ))}
@@ -73,11 +75,11 @@ export function ChatWindow({ chat, messages, onSend }: ChatWindowProps) {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Write a message…"
+          placeholder="Напишите сообщение…"
           rows={1}
         />
-        <button type="submit" className="primary-button" disabled={!draft.trim() || sending}>
-          Send
+        <button type="submit" className="primary-button" disabled={!draft.trim() || sending} title="Отправить">
+          Отправить
         </button>
       </form>
     </div>

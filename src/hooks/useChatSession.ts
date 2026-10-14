@@ -17,13 +17,13 @@ const DEMO_CHAT_ID = 'demo-welcome';
 function seedDemoChat(): { chats: Chat[]; messages: Record<string, ChatMessage[]> } {
   const now = Date.now();
   return {
-    chats: [{ chatId: DEMO_CHAT_ID, phoneNumber: '00000000000', name: 'GREEN-API Demo', createdAt: now }],
+    chats: [{ chatId: DEMO_CHAT_ID, phoneNumber: '00000000000', name: 'GREEN-API Демо', createdAt: now }],
     messages: {
       [DEMO_CHAT_ID]: [
         {
           id: 'welcome-1',
           chatId: DEMO_CHAT_ID,
-          text: "You're in demo mode — this data is simulated locally, nothing is sent to GREEN-API. Start a new chat with any phone number, or just send a message here.",
+          text: 'Это демо-режим — данные генерируются локально, ничего не отправляется в GREEN-API. Начните новый чат с любым номером телефона или просто напишите сообщение здесь.',
           direction: 'incoming',
           timestamp: Math.floor(now / 1000),
           status: 'sent',
@@ -117,7 +117,7 @@ export function useChatSession(creds: Credentials) {
           setConnectionError(null);
         } catch (err) {
           if (cancelled) return;
-          setConnectionError(err instanceof Error ? err.message : 'Failed to reach GREEN-API');
+          setConnectionError(err instanceof Error ? err.message : 'Не удалось подключиться к GREEN-API');
           await sleep(5000);
         }
       }
@@ -133,7 +133,7 @@ export function useChatSession(creds: Credentials) {
     async (phoneRaw: string): Promise<string> => {
       const phoneNumber = normalizePhone(phoneRaw);
       if (!phoneNumber) {
-        throw new Error('Enter a phone number');
+        throw new Error('Введите номер телефона');
       }
 
       const existing = chats.find((c) => c.phoneNumber === phoneNumber);
@@ -144,7 +144,7 @@ export function useChatSession(creds: Credentials) {
 
       const result = await api.checkWhatsapp(credsRef.current, phoneNumber);
       if (!result.existsWhatsapp) {
-        throw new Error('No WhatsApp account was found for this phone number');
+        throw new Error('По этому номеру не найден аккаунт WhatsApp');
       }
 
       const chat: Chat = {

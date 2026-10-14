@@ -11,19 +11,19 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const DEMO_NAMES = ['Alex', 'Jordan', 'Sam', 'Taylor', 'Morgan', 'Riley'];
+const DEMO_NAMES = ['Алекс', 'Данил', 'Саша', 'Тая', 'Марго', 'Рита'];
 
 function demoNameFor(phoneNumber: string): string {
   let hash = 0;
   for (const ch of phoneNumber) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
-  return `${DEMO_NAMES[hash % DEMO_NAMES.length]} (demo)`;
+  return `${DEMO_NAMES[hash % DEMO_NAMES.length]} (демо)`;
 }
 
 const REPLIES = [
-  "Hey! This is a simulated reply — GREEN-API isn't actually connected right now.",
-  'Mock mode is on, so this message was generated locally.',
-  'Got it — but remember, nothing here is really going out over WhatsApp.',
-  'Looks good on this end (demo data).',
+  'Привет! Это тестовый ответ — GREEN-API сейчас не подключён.',
+  'Включён демо-режим — это сообщение сгенерировано локально.',
+  'Принято — но помните, отсюда ничего реально не уходит в WhatsApp.',
+  'Здесь всё выглядит хорошо (тестовые данные).',
 ];
 
 function pickReply(seed: string): string {

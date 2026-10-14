@@ -21,7 +21,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
   try {
     response = await fetch(url, init);
   } catch {
-    throw new GreenApiError('Network error while calling GREEN-API. Check your connection.');
+    throw new GreenApiError('Ошибка сети при обращении к GREEN-API. Проверьте подключение.');
   }
 
   const text = await response.text();
@@ -38,7 +38,7 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
     const message =
       (typeof data === 'object' && data !== null && 'message' in data
         ? String((data as { message?: unknown }).message)
-        : undefined) ?? `Request failed with status ${response.status}`;
+        : undefined) ?? `Запрос завершился с ошибкой, код ${response.status}`;
     throw new GreenApiError(message, response.status);
   }
 
