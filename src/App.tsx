@@ -16,10 +16,7 @@ function ChatApp({ credentials, onLogout }: { credentials: Credentials; onLogout
 
   return (
     <div className="app-shell">
-      {credentials.mock && (
-        <div className="mock-banner">Демо-режим — показаны тестовые данные, подключения к GREEN-API нет.</div>
-      )}
-      {!credentials.mock && connectionError && (
+      {connectionError && (
         <div className="connection-banner">Проблема с подключением: {connectionError} — повтор…</div>
       )}
       <div className="app-layout">

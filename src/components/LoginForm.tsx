@@ -103,16 +103,6 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         <button type="submit" className="primary-button" disabled={checking} title="Войти">
           {checking ? 'Проверка…' : 'Войти'}
         </button>
-
-        <button
-          type="button"
-          className="secondary-button"
-          onClick={() => onSuccess({ idInstance: 'demo', apiTokenInstance: 'demo', apiUrl: '', mock: true })}
-          title="Демо-режим с тестовыми данными"
-        >
-          Демо-режим с тестовыми данными
-        </button>
-        <p className="login-hint">Аккаунт GREEN-API не нужен — пригодится, если сервис недоступен.</p>
       </form>
     </div>
   );

@@ -2,7 +2,6 @@ export interface Credentials {
   idInstance: string;
   apiTokenInstance: string;
   apiUrl: string;
-  mock?: boolean;
 }
 
 export interface Chat {

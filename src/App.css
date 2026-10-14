@@ -107,33 +107,10 @@
   align-self: flex-start;
 }
 
-.secondary-button {
-  background: #fff;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  border-radius: 10px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.secondary-button:hover {
-  background: #f1f6ff;
-}
-
 .login-hint {
   text-align: center;
   font-size: 12px;
   color: var(--text-muted);
-}
-
-.mock-banner {
-  background: #fff3cd;
-  color: #7a5b00;
-  text-align: center;
-  font-size: 13px;
-  padding: 6px;
-  flex-shrink: 0;
 }
 
 .app-shell {

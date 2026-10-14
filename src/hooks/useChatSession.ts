@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { liveApi, type IncomingMessageNotification } from '../api/greenApi';
-import { mockApi } from '../api/mockGreenApi';
 import { loadChatData, saveChatData } from '../storage';
 import type { Chat, ChatMessage, Credentials } from '../types';
 
@@ -12,34 +11,8 @@ function normalizePhone(raw: string): string {
   return raw.replace(/\D/g, '');
 }
 
-const DEMO_CHAT_ID = 'demo-welcome';
-
-function seedDemoChat(): { chats: Chat[]; messages: Record<string, ChatMessage[]> } {
-  const now = Date.now();
-  return {
-    chats: [{ chatId: DEMO_CHAT_ID, phoneNumber: '00000000000', name: 'GREEN-API Демо', createdAt: now }],
-    messages: {
-      [DEMO_CHAT_ID]: [
-        {
-          id: 'welcome-1',
-          chatId: DEMO_CHAT_ID,
-          text: 'Это демо-режим — данные генерируются локально, ничего не отправляется в GREEN-API. Начните новый чат с любым номером телефона или просто напишите сообщение здесь.',
-          direction: 'incoming',
-          timestamp: Math.floor(now / 1000),
-          status: 'sent',
-        },
-      ],
-    },
-  };
-}
-
 export function useChatSession(creds: Credentials) {
-  const api = creds.mock ? mockApi : liveApi;
-  const initial = (() => {
-    const loaded = loadChatData(creds.idInstance);
-    if (creds.mock && loaded.chats.length === 0) return seedDemoChat();
-    return loaded;
-  })();
+  const initial = loadChatData(creds.idInstance);
   const [chats, setChats] = useState<Chat[]>(initial.chats);
   const [messagesByChat, setMessagesByChat] = useState<Record<string, ChatMessage[]>>(initial.messages);
   const [activeChatId, setActiveChatId] = useState<string | null>(initial.chats[0]?.chatId ?? null);
@@ -106,12 +79,12 @@ export function useChatSession(creds: Credentials) {
     async function loop() {
       while (!cancelled) {
         try {
-          const notification = await api.receiveNotification(credsRef.current, 20);
+          const notification = await liveApi.receiveNotification(credsRef.current, 20);
           if (cancelled) return;
           if (notification) {
             processNotification(notification.body);
             try {
-              await api.deleteNotification(credsRef.current, notification.receiptId);
+              await liveApi.deleteNotification(credsRef.current, notification.receiptId);
             } catch {}
           }
           setConnectionError(null);
@@ -127,7 +100,7 @@ export function useChatSession(creds: Credentials) {
     return () => {
       cancelled = true;
     };
-  }, [creds.idInstance, creds.apiTokenInstance, creds.apiUrl, creds.mock, processNotification]);
+  }, [creds.idInstance, creds.apiTokenInstance, creds.apiUrl, processNotification]);
 
   const createChat = useCallback(
     async (phoneRaw: string): Promise<string> => {
@@ -142,7 +115,7 @@ export function useChatSession(creds: Credentials) {
         return existing.chatId;
       }
 
-      const result = await api.checkWhatsapp(credsRef.current, phoneNumber);
+      const result = await liveApi.checkWhatsapp(credsRef.current, phoneNumber);
       if (!result.existsWhatsapp) {
         throw new Error('По этому номеру не найден аккаунт WhatsApp');
       }
@@ -176,7 +149,7 @@ export function useChatSession(creds: Credentials) {
     setMessagesByChat((prev) => ({ ...prev, [chatId]: [...(prev[chatId] ?? []), optimistic] }));
 
     try {
-      const res = await api.sendMessage(credsRef.current, chatId, trimmed);
+      const res = await liveApi.sendMessage(credsRef.current, chatId, trimmed);
       setMessagesByChat((prev) => ({
         ...prev,
         [chatId]: (prev[chatId] ?? []).map((m) =>
